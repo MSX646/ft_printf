@@ -1,8 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kezekiel <kezekiel@student.21-schoo>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/09 13:50:23 by kezekiel          #+#    #+#             */
+/*   Updated: 2021/11/09 14:29:38 by kezekiel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 void	ft_putchar(char c)
 {
 	write(1, &c, 1);
+}
+
+void	ft_putstr(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		ft_putchar(str[i]);
+		i++;
+	}
 }
 
 void	ft_putnbr(long int nb)
@@ -18,28 +42,10 @@ void	ft_putnbr(long int nb)
 		ft_putchar(nb + '0');
 }
 
-void	ft_putstr(char *str)
+char	*ft_strchr(const char *s, int c)
 {
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		ft_putchar(str[i]);
-		i++;
-	}
-}
-
-char	*ft_strchr(const char *s, int c )
-{
-	while (*s)
-	{
-		if (*s == c)
-			return ((char *) s);
-		++s;
-	}
-	if (c == '\0')
-		return ((char *) s);
-	else
-		return (NULL);
+	while (*s != (char)c)
+		if (!*s++)
+			return (0);
+	return ((char *)s);
 }

@@ -1,5 +1,7 @@
 NAME = libftprintf.a
 
+AR 	 = ar rcs
+
 SRCS = \
 	ft_printf.c \
 	base.c \
@@ -8,25 +10,29 @@ SRCS = \
 	int.c \
 	utils.c \
 
-OBJS = ${SRCS:.c=.o}
+OBJS = $(patsubst %.c,%.o,$(SRCS))
+
+D_FILES = $(patsubst %.c,%.d,$(SRCS))
 
 CC		= gcc
 RM		= rm -f
 
 CFLAGS = -Wall -Wextra -Werror
 
-.c.o:
-		${CC} ${CFLAGS} -I. -g -c $< -o ${<:.c=.o}
+%.o: %.c
+		$(CC) $(CFLAGS) -c $< -o $@ -MD
 
-$(NAME): ${OBJS}
-		ar rcs ${NAME} ${OBJS}
+$(NAME): $(OBJS)
+		$(AR) $(NAME) $?
 
-all:	${NAME}
+all:	$(NAME)
 
 clean:
-		${RM} ${OBJS}
+		$(RM) $(OBJS)  $(D_FILES) 
 
 fclean:	clean
-		${RM} ${NAME}
+		$(RM) $(NAME)
 
 re:		fclean all
+
+.PHONY:	all clean fclean re

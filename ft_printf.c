@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kezekiel <kezekiel@student.21-schoo>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/09 13:50:02 by kezekiel          #+#    #+#             */
+/*   Updated: 2021/11/09 14:11:33 by kezekiel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-t_print	*init_tab(t_print *tab)
+static t_print	*init_tab(t_print *tab)
 {
 	tab->len = 0;
 	return (tab);
 }
 
-void	conv(char c, t_print *tab)
+static void	conv(char c, t_print *tab)
 {
 	if (c == 'c')
 		ischar(tab);
@@ -33,11 +45,11 @@ int	ft_printf(const char *format, ...)
 
 	tab = malloc(sizeof(t_print));
 	if (!tab)
-		return (-1);
+		return (0);
 	tab = init_tab(tab);
-	i = 0;
+	i = -1;
 	va_start(tab->args, format);
-	while (format[i])
+	while (format[++i])
 	{
 		if (format[i] == '%')
 		{
@@ -49,9 +61,8 @@ int	ft_printf(const char *format, ...)
 			ft_putchar(format[i]);
 			tab->len++;
 		}
-		i++;
 	}
 	i = tab->len;
-    free(tab);
+	free(tab);
 	return (i);
 }
